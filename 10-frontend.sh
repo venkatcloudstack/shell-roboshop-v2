@@ -25,5 +25,6 @@ VALIDATE $? "remove default code"
 cp $SCRIPT_DIR/nginx.conf  /etc/nginx/nginx.conf
 VALIDATE $? "copied roboshop nginx conf"
 
-app_restart
-print_total_time
+systemctl enable nginx   &>> $LOGS_FILE
+systemctl restart nginx  &>> $LOGS_FILE
+VALIDATE $? "restarting nginx"
