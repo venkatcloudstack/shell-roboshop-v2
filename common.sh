@@ -11,6 +11,7 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 TIMESTAMP=$(date "+%Y-%m-%d %H-%M-%S")
+MYSQL_HOST=mysql.venkatcloudstack.shop
 
 echo " $TIMESTAMP [INFO] script started "
 
@@ -82,7 +83,7 @@ systemd_setup(){
     cp $SCRIPT_DIR/$app_name.service /etc/systemd/system/$app_name.service
         VALIDATE $? "created systemctl service"
 
-    systemctl daemon-reload
+    systemctl daemon-reload  &>> $LOGS_FILE
     systemctl enable $app_name
     VALIDATE $? "enabling $app_name services"
 
@@ -93,4 +94,15 @@ app_restart(){
     systemctl enable $app_name  &>> $LOGS_FILE
     systemctl restart $app_name &>> $LOGS_FILE
     VALIDATE $? "restarting $app_name"
+}
+
+java_setup (){
+    dnf install maven -y  &>> $LOGS_FILE
+    VALIDATE $? "installing maven"
+    cd /app 
+    mvn clean package   &>> $LOGS_FILE
+    VALIDATE $? "downloading dependecies"
+    mv target/shipping-1.0.jar shipping.jar 
+    VALIDATE $? "adding shipping.jar file"
+
 }
