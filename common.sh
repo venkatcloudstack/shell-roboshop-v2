@@ -106,3 +106,11 @@ java_setup (){
     VALIDATE $? "adding shipping.jar file"
 
 }
+
+python_setup(){
+    dnf install python3 gcc python3-devel -y  &>> $LOGS_FILE
+    VALIDATE $? "installing python"
+
+    pip3 install -r requirements.txt   &>> $LOGS_FILE
+    VALIDATE $? "downloading dependecies"
+}
