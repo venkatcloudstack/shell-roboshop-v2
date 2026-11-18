@@ -1,5 +1,5 @@
 app_name=cart
-source ./common
+source ./common.sh
 
 check_root
 systemd_setup
